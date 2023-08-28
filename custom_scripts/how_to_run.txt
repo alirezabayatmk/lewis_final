@@ -1,0 +1,22 @@
+use fairseq from author: https://github.com/machelreid/fairseq
+
+
+conda create -n lewis python=3.8
+conda activate lewis
+conda install ipykernel
+conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch
+pip install pandas transformers python-Levenshtein
+git clone https://github.com/pytorch/fairseq
+cd fairseq/
+pip install --editable ./
+pip install sacrebleu sacremoses tensorboardX
+cd ..
+git clone git@github.com:alirezabayatmk/lewis.git
+cp -r fairseq/ lewis/fairseq
+
+
+
+# bart-denoising: reduce the total-num-update to 1000 (total number of epochs is decided by total-num-update/(train-samples/batch-size))
+# bart-mt: ... 2000
+# roberta-classifier: ... 1000
+# inference-roberta: ... 1000
