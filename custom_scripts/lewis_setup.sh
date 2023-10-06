@@ -4,12 +4,12 @@
 # chmod +x custom_scripts/installation_process.sh
 # run this script from the root of the project
 
-echo "Starting environment setup..."
+echo "Starting LEWIS environment setup..."
 
 #############################################################################################################
 #                                           creating the miniconda env                                      #
 #############################################################################################################
-
+#replace when using LUIS cluster
 echo "Creating conda environment..."
 conda create -y -n lewis python=3.8
 
@@ -106,3 +106,28 @@ mkdir gpt2_bpe
 wget -P gpt2_bpe https://dl.fbaipublicfiles.com/fairseq/gpt2_bpe/encoder.json gpt2_bpe
 wget -P gpt2_bpe https://dl.fbaipublicfiles.com/fairseq/gpt2_bpe/vocab.bpe gpt2_bpe/
 wget -P gpt2_bpe https://dl.fbaipublicfiles.com/fairseq/gpt2_bpe/dict.txt
+
+
+#############################################################################################################
+#                                      running LEWIS scripts in a row                                       #
+#############################################################################################################
+echo "Running preprocess-roberta-classifier.sh..."
+source roberta-classifier/preprocess-roberta-classifier.sh downloaded_data cmv dm1-app dm2-inapp
+
+echo "Running train-roberta-classifier.sh..."
+source roberta-classifier/train-roberta-classifier.sh downloaded_data cmv
+
+echo "Running convert_roberta_original_pytorch_checkpoint_to_pytorch.py..."
+python roberta-classifier/convert_roberta_original_pytorch_checkpoint_to_pytorch.py --roberta_checkpoint_path downloaded_data/roberta-classifier/cmv/checkpoints --pytorch_dump_folder_path downloaded_data/roberta-classifier/cmv --classification_head classification_head
+
+echo "Running preprocess-bart-denoising.sh..."
+source bart-denoising/preprocess-bart-denoising.sh downloaded_data cmv dm1-app
+source bart-denoising/preprocess-bart-denoising.sh downloaded_data cmv dm2-inapp
+
+echo "Running train-bart-denoising.sh..."
+source bart-denoising/train-bart-denoising.sh downloaded_data cmv dm1-app
+source bart-denoising/train-bart-denoising.sh downloaded_data cmv dm2-inap
+
+echo "Running get_synthesized_data.py..."
+python get_synthesized_data.py --d1_model_path downloaded_data/bart-denoising/cmv/dm1-app/checkpoints/checkpoint_best.pt --d2_model_path downloaded_data/bart-denoising/cmv/dm2-inapp/checkpoints/checkpoint_best.pt --d1_file downloaded_data/cmv/dm1-app/train.txt --d2_file downloaded_data/cmv/dm2-inapp/train.txt --out_file file.json --hf_dump downloaded_data/roberta-classifier/cmv
+
