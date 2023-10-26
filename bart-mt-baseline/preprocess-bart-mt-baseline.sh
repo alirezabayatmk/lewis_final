@@ -6,7 +6,7 @@ PREFIX=$1
 for SPLIT in train valid
 do
 	for LANG in src tgt; do
-		python -m fairseq.examples.roberta.multiprocessing_bpe_encoder \
+		python -m fairseq.roberta.multiprocessing_bpe_encoder \
 		--encoder-json encoder.json \
 		--vocab-bpe vocab.bpe \
 		--inputs "$PREFIX/$SPLIT.$LANG" \

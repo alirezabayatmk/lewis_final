@@ -18,7 +18,7 @@ cp test-data/train.label test-data/dev.label
 
 echo "preprocessing data"
 for SPLIT in train dev; do
-    python -m fairseq.examples.roberta.multiprocessing_bpe_encoder \
+    python -m fairseq.roberta.multiprocessing_bpe_encoder \
         --encoder-json encoder.json \
         --vocab-bpe vocab.bpe \
         --inputs "test-data/$SPLIT.input0" \

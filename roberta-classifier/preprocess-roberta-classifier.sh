@@ -12,7 +12,7 @@ mkdir -p "$OUTPUT_PATH"
 
 for SPLIT in train valid; do
     cat $INPUT_PATH/$DOMAIN_1/$SPLIT.txt $INPUT_PATH/$DOMAIN_2/$SPLIT.txt > $INPUT_PATH/$SPLIT.txt
-    python -m fairseq.examples.roberta.multiprocessing_bpe_encoder \
+    python -m fairseq.roberta.multiprocessing_bpe_encoder \
         --encoder-json "$DATA_PATH/gpt2_bpe/encoder.json" \
         --vocab-bpe "$DATA_PATH/gpt2_bpe/vocab.bpe" \
         --inputs "$INPUT_PATH/$SPLIT.txt" \
