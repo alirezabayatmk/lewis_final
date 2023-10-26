@@ -10,24 +10,24 @@ echo "Starting LEWIS environment setup..."
 #                                           creating the miniconda env                                      #
 #############################################################################################################
 #replace when using LUIS cluster
-echo "Creating conda environment..."
-conda create -y -n lewis python=3.8
+# echo "Creating conda environment..."
+# conda create -y -n lewis python=3.8
 
-echo "Activating conda environment..."
-conda activate lewis
+# echo "Activating conda environment..."
+# conda activate lewis
 
 
 #############################################################################################################
 #                                         installing required packages                                      #
 #############################################################################################################
-echo "Installing ipykernel..."
-conda install -y ipykernel
+# echo "Installing ipykernel..."
+# conda install -y ipykernel
 
-echo "Installing PyTorch and related packages..."
-conda install -y pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch
+# echo "Installing PyTorch and related packages..."
+# conda install -y pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch
 
-echo "Installing additional Python packages..."
-pip install pandas transformers python-Levenshtein
+# echo "Installing additional Python packages..."
+# pip install pandas transformers python-Levenshtein
 
 
 #############################################################################################################
@@ -36,9 +36,7 @@ pip install pandas transformers python-Levenshtein
 echo "Installing NVIDIA apex..."
 git clone https://github.com/NVIDIA/apex
 cd apex
-pip install -v --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" \
-  --global-option="--deprecated_fused_adam" --global-option="--xentropy" \
-  --global-option="--fast_multihead_attn" ./
+pip install -v --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" --global-option="--deprecated_fused_adam" --global-option="--xentropy" --global-option="--fast_multihead_attn" ./
 cd ..
 echo "NVIDIA apex installation completed."
 
@@ -65,26 +63,26 @@ echo "Lews cloning and setup completed."
 #############################################################################################################
 #                                 preparing dataset to match LEWIS format                                   #
 #############################################################################################################
-mkdir downloaded_data
-echo "Created directory 'downloaded_data'"
+# mkdir downloaded_data
+# echo "Created directory 'downloaded_data'"
 
-cd downloaded_data || { echo "Failed to change directory."; exit 1; }
-echo "Changed directory to 'downloaded_data'"
+# cd downloaded_data || { echo "Failed to change directory."; exit 1; }
+# echo "Changed directory to 'downloaded_data'"
 
-mkdir cmv
-echo "Created directory 'cmv'"
+# mkdir cmv
+# echo "Created directory 'cmv'"
 
-cd cmv || { echo "Failed to change directory."; exit 1; }
-echo "Changed directory to 'cmv'"
+# cd cmv || { echo "Failed to change directory."; exit 1; }
+# echo "Changed directory to 'cmv'"
 
-mkdir dm1-app
-echo "Created directory 'dm1-app'"
+# mkdir dm1-app
+# echo "Created directory 'dm1-app'"
 
-mkdir dm2-inapp
-echo "Created directory 'dm2-inapp'"
+# mkdir dm2-inapp
+# echo "Created directory 'dm2-inapp'"
 
-python custom_scripts/data_preparation.py
-echo "Ran data_preparation.py"
+# python custom_scripts/data_preparation.py
+# echo "Ran data_preparation.py"
 
 
 #############################################################################################################
